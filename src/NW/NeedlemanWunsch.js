@@ -56,7 +56,7 @@ class NeedlemanWunsch {
 			}
 		}
 
-		console.table(this._table);
+		// console.table(this._table);
 
 		let current = this._table[this._s.length][this._t.length];
 		let score = current.score;
