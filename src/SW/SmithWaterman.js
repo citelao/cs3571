@@ -1,9 +1,12 @@
 // @flow
 
 import { Alignment, Entry } from "../Types";
-import { NWScores, NWIndex, NWChars } from "./Types";
+import { NWScores, NWIndex, NWChars } from "../NW/Types";
 
-class NeedlemanWunsch {
+// this is basically NeedlemanWunsch but with the additional ability to
+// restart the alignment from 0. The final character is also chosen as the
+// maximum scoring element in the table.
+class SmithWaterman {
 	_s: Array<string>;
 	_t: Array<string>;
 	_scores: NWScores;
@@ -11,7 +14,7 @@ class NeedlemanWunsch {
 	_table: Array<Array<Entry>>;
 
 	constructor(s: string, t: string, scores: NWScores) {
-		console.log("NeedlemanWunsch!");
+		console.log("SmithWaterman!");
 
 		this._s = s.split("");
 		this._t = t.split("");
@@ -59,8 +62,20 @@ class NeedlemanWunsch {
 
 		// console.table(this._table);
 
-		let current = this._table[this._s.length][this._t.length];
-		let score = current.score;
+		// find the max item in the table.
+		let maxScore = -Infinity;
+		let maxCell: ?Entry = null;
+		this._table.forEach((row) => {
+			row.forEach((cell) => {
+				if(cell.score > maxScore) {
+					maxScore = cell.score;
+					maxCell = cell;
+				}
+			});
+		});
+		
+		let current = maxCell;
+		let score = (current) ? current.score : 0;
 		let s = "";
 		let t = "";
 
@@ -155,6 +170,15 @@ class NeedlemanWunsch {
 			selected: false
 		});
 
+		// Always allow the null
+		results.push({
+			score: 0,
+			previous: null,
+			deltaS: "",
+			deltaT: "",
+			selected: false
+		});
+
 		results.sort((a: Entry, b: Entry) => {
 			return b.score - a.score;
 		});
@@ -165,4 +189,4 @@ class NeedlemanWunsch {
 		return results[0];
 	}
 }
-export default NeedlemanWunsch;
+export default SmithWaterman;

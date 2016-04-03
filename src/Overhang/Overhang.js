@@ -1,9 +1,9 @@
 // @flow
 
 import { Alignment, Entry } from "../Types";
-import { NWScores, NWIndex, NWChars } from "./Types";
+import { NWScores, NWIndex, NWChars } from "../NW/Types";
 
-class NeedlemanWunsch {
+class Overhang {
 	_s: Array<string>;
 	_t: Array<string>;
 	_scores: NWScores;
@@ -11,7 +11,7 @@ class NeedlemanWunsch {
 	_table: Array<Array<Entry>>;
 
 	constructor(s: string, t: string, scores: NWScores) {
-		console.log("NeedlemanWunsch!");
+		console.log("Overhang!");
 
 		this._s = s.split("");
 		this._t = t.split("");
@@ -95,7 +95,7 @@ class NeedlemanWunsch {
 			if(i == null) { throw "this is not physically possible"; }
 
 			return {
-				score: i.score + this._scores.gapT,
+				score: 0,
 				previous: i,
 				deltaS: chars.s,
 				deltaT: "-",
@@ -105,7 +105,7 @@ class NeedlemanWunsch {
 
 		if(i == null) {
 			return {
-				score: j.score + this._scores.gapS,
+				score: 0,
 				previous: j,
 				deltaS: "-",
 				deltaT: chars.t,
@@ -165,4 +165,4 @@ class NeedlemanWunsch {
 		return results[0];
 	}
 }
-export default NeedlemanWunsch;
+export default Overhang;

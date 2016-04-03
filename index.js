@@ -1,26 +1,55 @@
 // @flow
 
 import NeedlemanWunsch from "./src/NW/NeedlemanWunsch";
+import SmithWaterman from "./src/SW/SmithWaterman";
+import Overhang from "./src/Overhang/Overhang";
 
 console.log("Starting!");
 
-let nw: NeedlemanWunsch = new NeedlemanWunsch("GCATGCU", "GATTACA", {
-	match: 1,
+// let nw: NeedlemanWunsch = new NeedlemanWunsch("AAAGGG", "GGGAAA", {
+// 	match: 2,
+// 	mismatch: -1,
+// 	gapS: -3,
+// 	gapT: -3
+// });
+
+// let nw: SmithWaterman = new SmithWaterman("GA", "CA", {
+// 	match: 2,
+// 	mismatch: -1,
+// 	gapS: -2,
+// 	gapT: -2
+// });
+
+let nw: Overhang = new Overhang("AAAGGG", "GGGAAA", {
+	match: 2,
 	mismatch: -1,
-	gapS: -1,
-	gapT: -1
+	gapS: -3,
+	gapT: -3
 });
 
 console.log("Score:", nw.align());
 
 let strs = nw.getTable().map((row) => {
 	return row.map((cell) => {
-		let rtn = "" + cell.score;
+		let rtn = "";
+		if (cell.selected) { rtn += "<span style='background: #86a1d1'>"; }
+
+		rtn += cell.score;
+
+		if (cell.deltaS && cell.deltaS != "-" && cell.deltaT && cell.deltaT != "-") {
+			rtn += "↖";
+		} else if(cell.deltaS && cell.deltaS != "-") {
+			rtn += "↑";
+		} else if(cell.deltaT && cell.deltaT != "-") {
+			rtn += "←";
+		} else {
+			rtn += "?";
+		}
 
 		if(cell.deltaS || cell.deltaT) {
 			rtn += "<br />" + cell.deltaS + ", " + cell.deltaT;
 		}
-
+		if (cell.selected) { rtn += "</span>"; }
 		return rtn;
 	});
 });
