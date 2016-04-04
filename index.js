@@ -6,12 +6,12 @@ import Overhang from "./src/Overhang/Overhang";
 
 console.log("Starting!");
 
-// let nw: NeedlemanWunsch = new NeedlemanWunsch("AAAGGG", "GGGAAA", {
-// 	match: 2,
-// 	mismatch: -1,
-// 	gapS: -3,
-// 	gapT: -3
-// });
+let nw: NeedlemanWunsch = new NeedlemanWunsch("GATTAAGCCAAGGTTCCCCG", "AATCTAATCCAGGTTCGCG", {
+	match: 2,
+	mismatch: -1,
+	gapS: -3,
+	gapT: -3
+});
 
 // let nw: SmithWaterman = new SmithWaterman("GA", "CA", {
 // 	match: 2,
@@ -20,12 +20,12 @@ console.log("Starting!");
 // 	gapT: -2
 // });
 
-let nw: Overhang = new Overhang("AAAGGG", "GGGAAA", {
-	match: 2,
-	mismatch: -1,
-	gapS: -3,
-	gapT: -3
-});
+// let nw: Overhang = new Overhang("AAAGGG", "GGGAAA", {
+// 	match: 2,
+// 	mismatch: -1,
+// 	gapS: -3,
+// 	gapT: -3
+// });
 
 console.log("Score:", nw.align());
 
@@ -68,7 +68,7 @@ function generateTable(strs: Array<Array<string>>, doc: Document): HTMLElement {
 
 		row.forEach((cell) => {
 			let tcell = document.createElement("td");
-			tcell.style.padding = "0.5rem";
+			tcell.style.padding = "0.2rem";
 			tcell.style.border = "1px solid";
 
 			tcell.innerHTML = cell;

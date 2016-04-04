@@ -3,6 +3,8 @@
 import { Alignment, Entry } from "../Types";
 import { NWScores, NWIndex, NWChars } from "../NW/Types";
 
+// Almost identical to NeedlemanWunsch, but base cases for the edges have
+// scores initialized to 0.
 class Overhang {
 	_s: Array<string>;
 	_t: Array<string>;
